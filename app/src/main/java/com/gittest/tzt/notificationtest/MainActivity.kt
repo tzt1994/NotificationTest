@@ -36,10 +36,10 @@ class MainActivity : BaseActivity() {
             sendCommonNotification()
         }
         vibrator.setOnClickListener {
-            sendCommonNotification()
+            sendRemoteViewNotification()
         }
         ring_bell_and_vibrator.setOnClickListener {
-            sendCommonNotification()
+            sendSuspensionNotification()
         }
     }
 
@@ -49,25 +49,60 @@ class MainActivity : BaseActivity() {
     fun sendCommonNotification(){
         openSuspensionWindow()
 
+        val builder = getNotificationBuilder("普通标题", "普通内容普通内容普通内容普通内容普通内容普通内容",channel1.id)
+
+        //notificationManager发送通知
+        mNotifiManager.notify(101, builder.build())
+    }
+
+    /**
+     * 发送折叠式通知
+     */
+    fun sendRemoteViewNotification(){
+        val builder = getNotificationBuilder("折叠标题","折叠内容折叠内容折叠内容折叠内容折叠内容折叠内容",channel2.id)
+        //设置优先级
+        builder.setPriority(NotificationCompat.PRIORITY_MAX)
+
+        mNotifiManager.notify(102, builder.build())
+    }
+
+    /**
+     * 发送悬挂式通知
+     */
+    fun sendSuspensionNotification(){
+        val builder = getNotificationBuilder("悬挂标题","悬挂内容悬挂内容悬挂内容悬挂内容悬挂内容悬挂内容",channel3.id)
+        //设置优先级
+        builder.setVisibility(Notification.VISIBILITY_PUBLIC)
+        builder.setPriority(NotificationCompat.PRIORITY_MAX)
+        mNotifiManager.notify(103, builder.build())
+    }
+
+    /**
+     * 设置通知
+     * @param title 标题
+     */
+    fun getNotificationBuilder(title : String, content : String, channel : String) : NotificationCompat.Builder{
+        val builder : NotificationCompat.Builder = NotificationCompat.Builder(this, channel)
+        //设置内容
+        builder.setContentText(content)
+        //设置标题
+        builder.setContentTitle(title)
+        //设置小图标，右边时间下面的图标
+        builder.setSmallIcon(R.mipmap.ic_launcher)
+        //设置大图标，左边大图标
+        builder.setLargeIcon(BitmapFactory.decodeResource(resources, R.mipmap.ic_launcher))
+        //
+        builder.setAutoCancel(true)
+
+        //设置通知的点击相应
         val intent = Intent(this@MainActivity, NotificationActivity::class.java)
         val pendIntent = PendingIntent.getActivity(this, 0,
             intent,0)
+        builder.setContentIntent(pendIntent)
+        //设置通知的发出时间
+        builder.setWhen(System.currentTimeMillis())
 
-        val xuanPendIntent = PendingIntent.getActivity(this, 0,
-            intent,PendingIntent.FLAG_CANCEL_CURRENT)
-
-        val notifi : NotificationCompat.Builder = NotificationCompat.Builder(this, "alarminfo")
-        notifi.setContentText("tbb或3M胶贴已脱落")
-        notifi.setContentTitle("tbb报警")
-        notifi.setPriority(NotificationCompat.PRIORITY_MAX)
-        notifi.setSmallIcon(R.mipmap.ic_launcher)
-        notifi.setLargeIcon(BitmapFactory.decodeResource(resources, R.mipmap.ic_launcher))
-        notifi.setAutoCancel(true)
-        notifi.setContentIntent(pendIntent)
-        notifi.setFullScreenIntent(xuanPendIntent, true)
-        notifi.setWhen(System.currentTimeMillis())
-
-        mNotifiManager.notify(100, notifi.build())
+        return builder
     }
 
     /**

@@ -17,7 +17,7 @@
         android:id="@+id/ring_bell"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="响铃"
+        android:text="发送普通通知"
         app:layout_constraintBottom_toTopOf="@+id/vibrator"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"/>
@@ -26,7 +26,7 @@
         android:id="@+id/vibrator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="振动"
+        android:text="发送折叠式通知"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -36,7 +36,7 @@
         android:id="@+id/ring_bell_and_vibrator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="响铃+振动"
+        android:text="发送悬挂式通知"
         app:layout_constraintTop_toBottomOf="@+id/vibrator"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"/>
