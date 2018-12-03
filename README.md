@@ -10,15 +10,11 @@ notification 先来看下基本构成
 
 上面的组成元素依次是：
 
-Icon/Photo：大图标
-
-Title/Name：标题
-
-Message：内容信息
-
-Timestamp：通知时间，默认是系统发出通知的时间，也可以通过setWhen()来设置
-
-Secondary Icon：小图标
+Icon/Photo：大图标\n
+Title/Name：标题\n
+Message：内容信息\n
+Timestamp：通知时间，默认是系统发出通知的时间，也可以通过setWhen()来设置\n
+Secondary Icon：小图标n\
 
 这是基本的notificaiton，相信大家也见到过可以下拉的通知，这就要使用到RemoteView，后面会有使用方法。
 
