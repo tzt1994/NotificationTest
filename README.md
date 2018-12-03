@@ -9,12 +9,16 @@ notification 先来看下基本构成
 ![图片不存在](https://github.com/tzt1994/imageLib/blob/master/NotificationTest/38056771.jpg)
 
 上面的组成元素依次是：
+
 Icon/Photo：大图标
+
 Title/Name：标题
+
 Message：内容信息
+
 Timestamp：通知时间，默认是系统发出通知的时间，也可以通过setWhen()来设置
+
 Secondary Icon：小图标
-内容文字，在小图标的左手边的一个文字
 
 这是基本的notificaiton，相信大家也见到过可以下拉的通知，这就要使用到RemoteView，后面会有使用方法。
 
