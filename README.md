@@ -6,3 +6,5 @@ Notificaiton 是显示在状态栏上的信息，它默认情况下不占用任�
 
 notification 先来看下基本构成
 
+![图片不存在](https://github.com/tzt1994/imageLib/blob/master/NotificationTest/38056771.jpg)
+
