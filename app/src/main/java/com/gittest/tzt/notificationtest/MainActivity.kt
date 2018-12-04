@@ -86,19 +86,17 @@ class MainActivity : BaseActivity() {
     fun sendSuspensionNotification(){
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
             val channel3 = NotificationChannel("suspension ","我的悬挂式通知消息",NotificationManager.IMPORTANCE_HIGH)
-//            //设置振动
-//            channel3.enableVibration(true)
-//            channel3.vibrationPattern = longArrayOf(300, 400, 300, 400, 300, 400)
-//            //设置提示音
-//            channel3.setSound(Uri.parse("android.resource://com.gittest.tzt.notificationtest/raw/girl_water.m4a"),Notification.AUDIO_ATTRIBUTES_DEFAULT)
+            //设置振动
+            channel3.enableVibration(true)
+            channel3.vibrationPattern = longArrayOf(300, 400, 300, 400, 300, 400)
+            //设置提示音,url也可以设置为 "android.resource://"+ packageName + R.raw.girl_water
+            channel3.setSound(Uri.parse("android.resource://"+ packageName +"/raw/girl_water"), Notification.AUDIO_ATTRIBUTES_DEFAULT)
             //设置闪光灯
             channel3.lightColor = Color.BLUE
-
             channel3.lockscreenVisibility = NotificationCompat.VISIBILITY_PUBLIC
             channel3.description = "悬挂通知消息"
             mNotifiManager.createNotificationChannel(channel3)
             val builder = getNotificationBuilder("悬挂标题","悬挂内容悬挂内容悬挂内容悬挂内容悬挂内容悬挂内容",channel3.id)
-//            builder.setDefaults(NotificationCompat.DEFAULT_ALL)
             mNotifiManager.notify(103, builder.build())
         }
     }
