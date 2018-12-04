@@ -1,25 +1,19 @@
 package com.gittest.tzt.notificationtest
 
 import android.app.*
-import android.content.BroadcastReceiver
-import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
 import android.graphics.BitmapFactory
-import android.media.MediaPlayer
+import android.graphics.Color
 import android.net.Uri
 import android.os.*
-import android.support.v7.app.AppCompatActivity
 import android.provider.Settings
 import android.support.annotation.RequiresApi
 import android.support.v4.app.NotificationCompat
-import android.support.v4.app.NotificationManagerCompat
-import android.util.Log
+import android.widget.RemoteViews
 import kotlinx.android.synthetic.main.activity_main.*
 
 @RequiresApi(Build.VERSION_CODES.O)
 class MainActivity : BaseActivity() {
-    private var state : Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,6 +33,7 @@ class MainActivity : BaseActivity() {
             sendRemoteViewNotification()
         }
         ring_bell_and_vibrator.setOnClickListener {
+            Thread.sleep(3000)
             sendSuspensionNotification()
         }
     }
@@ -59,22 +54,53 @@ class MainActivity : BaseActivity() {
      * 发送折叠式通知
      */
     fun sendRemoteViewNotification(){
-        val builder = getNotificationBuilder("折叠标题","折叠内容折叠内容折叠内容折叠内容折叠内容折叠内容",channel2.id)
-        //设置优先级
-        builder.setPriority(NotificationCompat.PRIORITY_MAX)
+        val builder = NotificationCompat.Builder(this, channel2.id)
+        val remoteView = RemoteViews(packageName, R.layout.remote_notifi)
+        //设置通知的点击响应，这里是跳转到NotificationActivity
+        val intent = Intent(this@MainActivity, NotificationActivity::class.java)
+        val pendIntent = PendingIntent.getActivity(this, 0,
+            intent,0)
+        //设置内容
+        builder.setPriority(NotificationManager.IMPORTANCE_HIGH)
+        builder.setContent(remoteView)
+        builder.setCustomBigContentView(remoteView)
+        builder.setSmallIcon(R.mipmap.ic_launcher)
+        builder.setNumber(33)
+        remoteView.setImageViewResource(R.id.iv_tupian, R.mipmap.tupian1111)
+        remoteView.setTextViewText(R.id.tv_title,"自定义通知标题")
+        remoteView.setTextViewText(R.id.tv_content,"自定义通知内容自定义通知内容自定义通知内容自定义通知内容自定义通知内容")
+        remoteView.setTextViewText(R.id.tv_sure,"确认")
+        remoteView.setTextViewText(R.id.tv_cancel,"取消")
+        //确认的点击事件
+        remoteView.setOnClickPendingIntent(R.id.tv_sure, pendIntent)
+        builder.setAutoCancel(true)
 
         mNotifiManager.notify(102, builder.build())
     }
 
     /**
-     * 发送悬挂式通知
+     * 发送自定义声音，通知
+     *
+     *
      */
     fun sendSuspensionNotification(){
-        val builder = getNotificationBuilder("悬挂标题","悬挂内容悬挂内容悬挂内容悬挂内容悬挂内容悬挂内容",channel3.id)
-        //设置优先级
-        builder.setVisibility(Notification.VISIBILITY_PUBLIC)
-        builder.setPriority(NotificationCompat.PRIORITY_MAX)
-        mNotifiManager.notify(103, builder.build())
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            val channel3 = NotificationChannel("suspension ","我的悬挂式通知消息",NotificationManager.IMPORTANCE_HIGH)
+//            //设置振动
+//            channel3.enableVibration(true)
+//            channel3.vibrationPattern = longArrayOf(300, 400, 300, 400, 300, 400)
+//            //设置提示音
+//            channel3.setSound(Uri.parse("android.resource://com.gittest.tzt.notificationtest/raw/girl_water.m4a"),Notification.AUDIO_ATTRIBUTES_DEFAULT)
+            //设置闪光灯
+            channel3.lightColor = Color.BLUE
+
+            channel3.lockscreenVisibility = NotificationCompat.VISIBILITY_PUBLIC
+            channel3.description = "悬挂通知消息"
+            mNotifiManager.createNotificationChannel(channel3)
+            val builder = getNotificationBuilder("悬挂标题","悬挂内容悬挂内容悬挂内容悬挂内容悬挂内容悬挂内容",channel3.id)
+//            builder.setDefaults(NotificationCompat.DEFAULT_ALL)
+            mNotifiManager.notify(103, builder.build())
+        }
     }
 
     /**
@@ -94,7 +120,7 @@ class MainActivity : BaseActivity() {
         //
         builder.setAutoCancel(true)
 
-        //设置通知的点击相应
+        //设置通知的点击响应，这里是跳转到NotificationActivity
         val intent = Intent(this@MainActivity, NotificationActivity::class.java)
         val pendIntent = PendingIntent.getActivity(this, 0,
             intent,0)

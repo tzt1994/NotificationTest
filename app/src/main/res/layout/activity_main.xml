@@ -36,7 +36,7 @@
         android:id="@+id/ring_bell_and_vibrator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="发送悬挂式通知"
+        android:text="发送自定义声音，振动，闪光灯的通知"
         app:layout_constraintTop_toBottomOf="@+id/vibrator"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"/>
