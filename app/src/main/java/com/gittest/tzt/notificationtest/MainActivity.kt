@@ -1,5 +1,6 @@
 package com.gittest.tzt.notificationtest
 
+import android.annotation.SuppressLint
 import android.app.*
 import android.content.Intent
 import android.graphics.BitmapFactory
@@ -83,16 +84,19 @@ class MainActivity : BaseActivity() {
      *
      *
      */
+    @SuppressLint("WrongConstant")
     fun sendSuspensionNotification(){
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-            val channel3 = NotificationChannel("suspension ","我的悬挂式通知消息",NotificationManager.IMPORTANCE_HIGH)
+            val channel3 = NotificationChannel("suspension ","我的悬挂式通知消息",NotificationManager.IMPORTANCE_MAX)
             //设置振动
             channel3.enableVibration(true)
             channel3.vibrationPattern = longArrayOf(300, 400, 300, 400, 300, 400)
             //设置提示音,url也可以设置为 "android.resource://"+ packageName + R.raw.girl_water
             channel3.setSound(Uri.parse("android.resource://"+ packageName +"/raw/girl_water"), Notification.AUDIO_ATTRIBUTES_DEFAULT)
             //设置闪光灯
+            channel3.enableLights(true)
             channel3.lightColor = Color.BLUE
+            //设置任何情况下都会显示
             channel3.lockscreenVisibility = NotificationCompat.VISIBILITY_PUBLIC
             channel3.description = "悬挂通知消息"
             mNotifiManager.createNotificationChannel(channel3)
